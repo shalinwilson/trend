@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+<odoo>
+    <data noupdate="1">
+        <record id="specific_vendor" model="res.partner">
+            <field name="name">All Vendor</field>
+            <field name="supplier_rank">1</field>
+        </record>
+    </data>
+</odoo>
+    </data>
+</odoo>
