@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--        <template id="portal_my_home_menu_bidding_lines_new" name="portal_layout : bidding_lines"-->
+    <!--                  inherit_id="portal.portal_my_home" priority="101">-->
+    <!--            <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">-->
+    <!--                <t t-call="portal.portal_docs_entry">-->
+    <!--                    <t t-set="icon" t-value="'/purchase/static/src/img/calculator.svg'"/>-->
+    <!--                    <t t-set="title">Bidding Lines</t>-->
+    <!--                    <t t-set="url" t-value="'/my/lines'"/>-->
+    <!--                    <t t-set="text">Find all bidding lines shared with you</t>-->
+    <!--                    <t t-set="placeholder_count" t-value="'purchase_line_count'"/>-->
+    <!--                </t>-->
+    <!--            </xpath>-->
+    <!--        </template>-->
+
+    <template id="purchase_line_count" name="Bidding Lines" inherit_id="portal.portal_breadcrumbs" priority="30">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'bidding'" t-attf-class="breadcrumb-item #{'active ' if bidding else ''}">
+                <a t-if="bidding" t-attf-href="/bidding?{{ keep_query() }}">Bidding Lines</a>
+                <t t-else="">Bidding Lines</t>
+            </li>
+        </xpath>
+    </template>
+    <template id="portal_my_home_menu_po_lines" name="Bidding Lines" inherit_id="portal.portal_my_home"
+              customize_show="True" priority="30">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <t t-set="portal_client_category_enable" t-value="True"/>
+        </xpath>
+        <div id="portal_client_category" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/purchase/static/src/img/calculator.svg'"/>
+                <t t-set="title">Bidding Lines</t>
+                <t t-set="url" t-value="'/Bidding'"/>
+                <t t-set="text">View the Bidding Lines</t>
+                <t t-set="placeholder_count" t-value="'purchase_line_count'"/>
+            </t>
+        </div>
+    </template>
+
+    <template id="portal_my_home_po_lines_views" name="My Time Off">
+        <t t-call="portal.portal_layout">
+            <div>
+                <t t-set="breadcrumbs_searchbar" t-value="True"/>
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">Bidding Lines</t>
+                </t>
+                <table id="currentTable" class="table-striped table">
+                    <thead>
+                        <tr class="active">
+                            <th class="text-left">Product</th>
+                            <th class="text-center">Qty</th>
+                            <th class="text-center">Price</th>
+                            <th class="text-end">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="lines" t-as="record">
+                            <tr>
+                                <td class='text-left'>
+                                    <a t-att-href="record.get_portal_url()">
+                                        <t t-esc="record.name"/>
+                                    </a>
+                                    <input type="hidden" t-att-id="record.id"/>
+                                </td>
+                                <td class='text-center'>
+                                    <span t-field="record.product_qty"/>
+                                </td>
+                                <td class='text-center'>
+                                    <span t-field="record.price_unit"/>
+                                </td>
+                                <!--                                <td class='text-center'>-->
+                                <!--                                    -->
+                                <!--                                </td>-->
+                                <td class='text-end'>
+                                    <span t-field="record.state"/>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+    <template id="purchase_order_line_template" name="Purchase Order Line">
+        <t t-call="website.layout">
+            <div class="container" id="bidding_portal">
+                <div id="introduction" class="mt-5 mt-lg-0 pb-2 pt-0">
+                    <h1>Purchase Order Line:
+                        <t t-esc="purchase_order_line.order_id.name"/>
+                        <input type="hidden" t-att-id="purchase_order_line.order_id.id"/>
+                    </h1>
+                </div>
+                <div class="row col-lg-12">
+                    <div class="col-lg-6">
+                        <p>Product:
+                            <t t-esc="purchase_order_line.product_id.display_name"/>
+                        </p>
+                        <p>Quantity:
+                            <t t-esc="purchase_order_line.product_qty"/>
+                        </p>
+                        <p>Price:
+                            <t t-esc="purchase_order_line.price_unit"/>
+                        </p>
+                    </div>
+                    <div class="col-lg-6">
+                        <p>Total:
+                            <t t-esc="purchase_order_line.price_subtotal"/>
+                        </p>
+                        <p>Bidding Price: <input type="text" name="name" t-att-value="name" id="bidding_price"/></p>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3" id="bidding_update">Update
+                    <span class="oi oi-arrow-right"/>
+                </button>
+
+            </div>
+        </t>
+    </template>
+
+
+</odoo>
