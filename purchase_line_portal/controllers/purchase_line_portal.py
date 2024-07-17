@@ -21,11 +21,12 @@ class WebsiteEvents(portal.CustomerPortal):
         user = request.env.user
         searchbar_inputs = {
             'All': {'label': 'All', 'input': 'All', 'domain': []},
-            'Purchase Order': {'label': 'Purchase Order', 'input': 'Purchase Order', 'domain': [('order_id', 'like', search)]},
+            'Purchase Order': {'label': 'Purchase Order', 'input': 'Purchase Order',
+                               'domain': [('order_id', 'like', search)]},
         }
         search_domain = searchbar_inputs[search_in]['domain']
         order_lines = request.env['purchase.order.line'].sudo().search([
-            ])
+        ])
         search_lines = order_lines.search(search_domain)
         return request.render('purchase_line_portal.portal_my_home_po_lines_views',
                               {
@@ -38,7 +39,7 @@ class WebsiteEvents(portal.CustomerPortal):
 
     @http.route(['/my/purchase_order_line/<int:line_id>'], type='http', auth='user', website=True)
     def portal_purchase_order_line(self, line_id, **kwargs):
-        purchase_order_line = request.env['purchase.order.line'].browse(line_id)
+        purchase_order_line = request.env['purchase.order.line'].sudo().browse(line_id)
         if not purchase_order_line.exists():
             return request.not_found()
 
@@ -46,3 +47,8 @@ class WebsiteEvents(portal.CustomerPortal):
             'purchase_order_line': purchase_order_line,
         }
         return request.render('purchase_line_portal.purchase_order_line_template', values)
+
+    @http.route(['/bidding/line/create'], auth='user', type='json', website=True)
+    def update_bidding_lines(self, po_id, price):
+        print(po_id, price)
+        return True
