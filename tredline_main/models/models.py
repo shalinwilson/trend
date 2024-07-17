@@ -3,8 +3,14 @@
 from odoo import models, fields, api
 
 class SupplierInfo(models.Model):
-    inherit = "product.supplierinfo"
+    _inherit = "product.supplierinfo"
 
+class BiddingDetails(models.Model):
+    _name = "bidding.details"
+
+    vendor_partner_id = fields.Many2one('res.partner')
+    bidding_amount = fields.Float()
+    po_line_id = fields.Many2one('purchase.order.line')
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
@@ -23,3 +29,9 @@ class ProductTemplate(models.Model):
         })
 
         return product
+
+
+class PurchaseOrderLine(models.Model):
+    _inherit = 'purchase.order.line'
+
+    bidding_details = fields.One2many('bidding.details','po_line_id')
