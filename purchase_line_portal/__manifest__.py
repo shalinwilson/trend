@@ -12,6 +12,8 @@
     ],
     'assets': {
         'web.assets_frontend': [
+            'purchase_line_portal/static/src/lib/toaster.js',
+            'purchase_line_portal/static/src/lib/toaster.scss',
             'purchase_line_portal/static/src/js/main.js',
         ],
     },

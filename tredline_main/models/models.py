@@ -10,7 +10,7 @@ class BiddingDetails(models.Model):
 
     vendor_partner_id = fields.Many2one('res.partner')
     bidding_amount = fields.Float()
-    po_line_id = fields.Many2one('purchase.order.line')
+    po_id = fields.Many2one('purchase.order')
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
@@ -31,7 +31,7 @@ class ProductTemplate(models.Model):
         return product
 
 
-class PurchaseOrderLine(models.Model):
-    _inherit = 'purchase.order.line'
+class PurchaseOrder(models.Model):
+    _inherit = 'purchase.order'
 
-    bidding_details = fields.One2many('bidding.details','po_line_id')
+    bidding_details = fields.One2many('bidding.details','po_id')

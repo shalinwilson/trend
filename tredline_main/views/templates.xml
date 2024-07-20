@@ -1,6 +1,4 @@
 <odoo>
-    <data>
-<odoo>
     <data noupdate="1">
         <record id="specific_vendor" model="res.partner">
             <field name="name">All Vendor</field>
@@ -8,5 +6,4 @@
         </record>
     </data>
 </odoo>
-    </data>
-</odoo>
+

@@ -50,5 +50,18 @@ class WebsiteEvents(portal.CustomerPortal):
 
     @http.route(['/bidding/line/create'], auth='user', type='json', website=True)
     def update_bidding_lines(self, po_id, price):
+        bidding_details = request.env['bidding.details'].sudo().search([('po_id', '=', int(po_id))])
+        partner = request.env.user.partner_id
+        if not bidding_details:
+            order_id = request.env['purchase.order'].sudo().search([('id', '=', int(po_id))])
+            bidding = request.env['bidding.details'].sudo().create({
+                'po_id': order_id.id,
+                'vendor_partner_id': partner.id,
+                'bidding_amount': float(price),
+            })
+        else:
+            bidding_details.write({
+                'bidding_amount': float(price)
+            })
         print(po_id, price)
         return True

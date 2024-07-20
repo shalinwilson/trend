@@ -2,6 +2,8 @@
 
 import publicWidget from "@web/legacy/js/public/public_widget";
 import { jsonrpc } from "@web/core/network/rpc_service";
+import { renderToString } from "@web/core/utils/render";
+//import { toastr } from "@purchase_line_portal/static/lib/toaster";
 
 publicWidget.registry.PurchasePortal = publicWidget.Widget.extend({
      selector: '#bidding_portal',
@@ -10,6 +12,15 @@ publicWidget.registry.PurchasePortal = publicWidget.Widget.extend({
         },
          init: function () {
             this._super.apply(this, arguments);
+        },
+        start: function () {
+            this._super.apply(this, arguments);
+
+            // Set a timeout for the redirection
+            var self = this;
+            setTimeout(function() {
+                self._redirectToUrl();
+            }, 5000);  // 5000 milliseconds = 5 seconds
         },
         _update_po_lines: function(){
             var self = this;
@@ -32,11 +43,16 @@ publicWidget.registry.PurchasePortal = publicWidget.Widget.extend({
                         contentType: "application/json; charset=utf-8",
                         data: JSON.stringify({'jsonrpc': "2.0", 'method': "call", "params": {'po_id': elementId, 'price': bidding_price}}),
                         success: function(action){
-                           console.log("result", action.result);
+//                            self._renderTemplate('purchase_line_portal.purchase_form_success');
+//                            alert("Updated successfully.");
+                            toastr.success('Bidding', 'Updated successfully!!', {timeOut: 5000})
                         }
                     })
                 }
                 // Perform any additional logic needed with the elementId
             });
+        },
+        _redirectToUrl: function () {
+            window.location.href = '/my';
         }
 });
