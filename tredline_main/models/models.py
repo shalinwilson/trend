@@ -11,6 +11,7 @@ class BiddingDetails(models.Model):
     vendor_partner_id = fields.Many2one('res.partner')
     bidding_amount = fields.Float()
     po_id = fields.Many2one('purchase.order')
+    poline_id = fields.Many2one('purchase.order.line')
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'

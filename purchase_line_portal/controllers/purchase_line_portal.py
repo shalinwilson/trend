@@ -54,10 +54,12 @@ class WebsiteEvents(portal.CustomerPortal):
         partner = request.env.user.partner_id
         if not bidding_details:
             order_id = request.env['purchase.order'].sudo().search([('id', '=', int(po_id))])
+            # todo: to include poline id and product and qty
             bidding = request.env['bidding.details'].sudo().create({
                 'po_id': order_id.id,
                 'vendor_partner_id': partner.id,
                 'bidding_amount': float(price),
+
             })
         else:
             bidding_details.write({
